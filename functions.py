@@ -2,9 +2,6 @@ import requests
 import json 
 import sqlite3
 
-conn = sqlite3.connect('hotels.db')
-c = conn.cursor()
-
 def find_hotel():
     
     url = "https://hotel-price-aggregator.p.rapidapi.com/search"
@@ -53,14 +50,6 @@ def get_hotel_rate():
         if key == 'rates':
             return hotel_stats[key]
 
-def create_table():
-    c.execute("CREATE TABLE IF NOT EXISTS hotelrates(provider TEXT, host TEXT, rate REAL, tax REAL)") 
-
-def data_entry():
-    c.execute("INSERT INTO hotelrates (provider, host, rate, tax) VALUES (?, ?, ?, ?)"), (provider, host, rate, tax)
-    conn.commit()
-    c.close()
-    con.close()
 
     
  
