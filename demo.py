@@ -33,7 +33,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('home')) # if so - send to home page
+        return redirect(url_for('search_for_hotel')) # if so - send to home page
     return render_template('register.html', title='Register', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -43,27 +43,22 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
-                return redirect(url_for("home"))
+                return redirect(url_for("search_for_hotel"))
 
         return '<h1>Invalid username or password</h1>'
 
     return render_template('login.html', form=form)
 
 @app.route("/")
-
-
 @app.route("/home")
 def home():
     return render_template('home.html', subtitle='Home Page', text='This is the home page')
 
-@app.route("/second_page")
-def second_page():
-    return render_template('second_page.html', subtitle='Second Page', text='This is the second page')
+@app.route("/search_for_hotel")
+def search_for_hotel():
+    return render_template('search_for_hotel.html')
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     app.run(debug=True, host="0.0.0.0")
-=======
-    app.run(debug=True, host="0.0.0.0")
->>>>>>> ad77bdb0b9184d6e031c95941112b5ab86894909
+

@@ -2,11 +2,12 @@ import requests
 import json 
 import sqlite3
 
-def find_hotel():
+def find_hotel(city):
     
     url = "https://hotel-price-aggregator.p.rapidapi.com/search"
 
-    city_input = input("Enter city of desired stay:    ")
+    # city_input = input("Enter city of desired stay:    ")
+    city_input = city
     querystring = {"q":city_input}
     print("    ")
     print("    ")
