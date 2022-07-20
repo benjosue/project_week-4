@@ -62,4 +62,8 @@ def second_page():
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     app.run(debug=True, host="0.0.0.0")
+=======
+    app.run(debug=True, host="0.0.0.0")
+>>>>>>> ad77bdb0b9184d6e031c95941112b5ab86894909
