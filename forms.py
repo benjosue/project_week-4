@@ -32,3 +32,6 @@ class SearchForm(FlaskForm):
                        validators=[DataRequired()])
 
     submit = SubmitField('Submit')
+
+
+

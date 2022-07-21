@@ -49,6 +49,11 @@ def login():
 
     return render_template('login.html', form=form)
 
+"""@app.route("/search", methods=['GET', 'POST'])
+def search():
+    form = SearchForm()
+    if form.validate_on_submit():
+        user = User(username=)"""
 @app.route("/")
 @app.route("/home")
 def home():
