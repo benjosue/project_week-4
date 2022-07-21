@@ -1,13 +1,19 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, SearchForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from functions import find_hotel, dict_to_df
 
 
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
 app.config['SECRET_KEY'] = '0ea0fddf88db1442bf02fd39c2ea5e5d'
+
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+# login_manager.login_view = 'login'
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -24,6 +30,11 @@ class User(db.Model):
     return f"User('{self.username}', '{self.email}', '{self.password}')"
 
 
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(int(user_id))
+
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -36,6 +47,7 @@ def register():
         return redirect(url_for('search_for_hotel')) # if so - send to home page
     return render_template('register.html', title='Register', form=form)
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -43,20 +55,29 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
+                # login_user(user, remember=form.remember.data)
                 return redirect(url_for("search_for_hotel"))
 
         return '<h1>Invalid username or password</h1>'
 
     return render_template('login.html', form=form)
 
+
+@app.route("/search_for_hotel", methods=['GET', 'POST'])
+def search_for_hotel():
+    form = SearchForm()
+    if form.validate_on_submit():
+        city = form.city.data
+        city_info = dict_to_df(find_hotel(city))
+        return render_template('search_for_hotel.html', form=form) + "<h1>" + city + "</h1>" + "<p>" + city_info + "</p>"
+        # return render_template('search_for_hotel.html', form=form)
+    return render_template('search_for_hotel.html', form=form)
+
+
 @app.route("/")
 @app.route("/home")
 def home():
     return render_template('home.html', subtitle='Home Page', text='This is the home page')
-
-@app.route("/search_for_hotel")
-def search_for_hotel():
-    return render_template('search_for_hotel.html')
 
 
 if __name__ == '__main__':

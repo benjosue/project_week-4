@@ -1,6 +1,8 @@
 import requests
 import json 
 import sqlite3
+import pandas as pd
+import sqlalchemy as db
 
 def find_hotel(city):
     
@@ -51,6 +53,13 @@ def get_hotel_rate():
         if key == 'rates':
             return hotel_stats[key]
 
-
-    
- 
+def dict_to_df(dictionary):
+    data = pd.DataFrame(dictionary)
+    data.pop('shortName')
+    data.pop('coordenates')
+    data.pop('address')
+    # engine = db.create_engine('sqlite:///data.db')
+    # data.to_sql('data', con=engine, if_exists='replace', index=False)
+    # query_result = engine.execute("SELECT * FROM data;").fetchall()
+    # return pd.DataFrame(query_result)
+    return data.to_html()
