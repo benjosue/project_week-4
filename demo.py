@@ -1,10 +1,10 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm, LoginForm, SearchForm
+from forms import RegistrationForm, LoginForm, SearchForm, HotelForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from functions import find_hotel, dict_to_html
+from functions import find_hotel, dict_to_html, get_hotel_rate
 
 
 app = Flask(__name__)
@@ -68,16 +68,22 @@ def search_for_hotel():
     form = SearchForm()
     if form.validate_on_submit():
         city = form.city.data
-        city_info = dict_to_html(find_hotel(city))
-        return render_template('search_for_hotel.html', form=form) + "<p>" + city_info + "</p>"
-        # return render_template('search_for_hotel.html', form=form)
+        city_info = find_hotel(city)
+        return render_template('search_for_hotel.html', form=form, hotel_info = city_info)
     return render_template('search_for_hotel.html', form=form)
 
 
-@app.route("/display_rates")
+@app.route("/display_rates", methods=['GET', 'POST'])
 def display_rates():
-    
-    return render_template('display_rates')
+    form = HotelForm()
+    if form.validate_on_submit():
+        check_in_date = form.check_in_date.data
+        check_out_date = form.check_out_date.data
+        # rate = get_hotel_rate(hotel_id, check_in_date, check_out_date)
+        rate = get_hotel_rate(109745697, check_in_date, check_out_date)
+        return render_template('display_rates.html', form=form, hotel_rate = rate)
+
+    return render_template('display_rates.html', form=form)
 
 @app.route("/")
 @app.route("/home")

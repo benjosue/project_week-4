@@ -32,3 +32,13 @@ class SearchForm(FlaskForm):
                        validators=[DataRequired()])
 
     submit = SubmitField('Submit')
+
+
+class HotelForm(FlaskForm):
+    check_in_date = StringField('Check In Date (XXXX-XX-XX)',
+                              validators=[DataRequired()])
+                            
+    check_out_date = StringField('Check Out Date (XXXX-XX-XX)',
+                               validators=[DataRequired()])
+                                
+    submit = SubmitField('Submit')

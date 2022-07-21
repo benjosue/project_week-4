@@ -1,3 +1,79 @@
 {% extends "layout.html" %}
 {% block content %}
+    <div class="content-section">
+        <form class="form-login" method="POST" action="/display_rates">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <!-- Check In Field -->
+                <div class="form-group">
+                    {{ form.check_in_date.label(class="form-control-label") }}
+                    {% if form.check_in_date.errors %}
+                        {{ form.check_in_date(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                        {% for error in form.check_in_date.errors%}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.check_in_date(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <!-- Check Out Field -->
+                <div class="form-group">
+                    {{ form.check_out_date.label(class="form-control-label") }}
+                    {% if form.check_out_date.errors %}
+                        {{ form.check_out_date(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                        {% for error in form.check_out_date.errors%}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.check_out_date(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+        </form>
+    </div>
+
+    {% if hotel_rate %}
+        <table>
+                <tr>
+                    <td>
+                        <h4>Provider</h4>
+                    </td>
+                    <td>
+                        <h4>Host</h4>
+                    </td>
+                    <td>
+                        <h4>Rate</h4>
+                    </td>
+                    <td>
+                        <h4>Taxes</h4>
+                    </td>
+                </tr>
+            {% for hotel in hotel_rate %}
+                <tr>
+                    <td>
+                        {{ hotel['provider'] }}
+                    </td>
+                    <td>
+                        {{ hotel['host'] }}
+                    </td>
+                    <td>
+                        {{ hotel['rate'] }}
+                    </td>
+                    <td>
+                        {{ hotel['taxes'] }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
 {% endblock content %}

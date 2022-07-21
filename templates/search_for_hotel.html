@@ -26,4 +26,22 @@
                 </div>
         </form>
     </div>
+
+    {% if hotel_info %}
+        <table>
+            {% for hotel in hotel_info %}
+                <tr>
+                    <td>
+                        {{ hotel['name'] }}
+                    </td>
+                    <td>
+                        {% set url = ['/display_rates?hotel_id=', hotel['hotelId']]|join() %}
+                        <a href= {{ url }}>
+                        {{ hotel['hotelId'] }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 {% endblock content %}
