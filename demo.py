@@ -4,7 +4,7 @@ from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from functions import find_hotel, dict_to_df
+from functions import find_hotel, dict_to_html
 
 
 app = Flask(__name__)
@@ -68,11 +68,16 @@ def search_for_hotel():
     form = SearchForm()
     if form.validate_on_submit():
         city = form.city.data
-        city_info = dict_to_df(find_hotel(city))
-        return render_template('search_for_hotel.html', form=form) + "<h1>" + city + "</h1>" + "<p>" + city_info + "</p>"
+        city_info = dict_to_html(find_hotel(city))
+        return render_template('search_for_hotel.html', form=form) + "<p>" + city_info + "</p>"
         # return render_template('search_for_hotel.html', form=form)
     return render_template('search_for_hotel.html', form=form)
 
+
+@app.route("/display_rates")
+def display_rates():
+    
+    return render_template('display_rates')
 
 @app.route("/")
 @app.route("/home")

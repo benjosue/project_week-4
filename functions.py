@@ -53,7 +53,7 @@ def get_hotel_rate():
         if key == 'rates':
             return hotel_stats[key]
 
-def dict_to_df(dictionary):
+def dict_to_html(dictionary):
     data = pd.DataFrame(dictionary)
     data.pop('shortName')
     data.pop('coordenates')
@@ -62,4 +62,5 @@ def dict_to_df(dictionary):
     # data.to_sql('data', con=engine, if_exists='replace', index=False)
     # query_result = engine.execute("SELECT * FROM data;").fetchall()
     # return pd.DataFrame(query_result)
+    # data['name'] = '<a href="#">' + data['name'].astype(str) + '</a>'
     return data.to_html()
