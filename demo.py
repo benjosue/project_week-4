@@ -85,6 +85,10 @@ def display_rates():
 
     return render_template('display_rates.html', form=form)
 
+@app.route("/about_us")
+def about_us():
+    return render_template('about_us.html')
+
 @app.route("/")
 @app.route("/home")
 def home():
