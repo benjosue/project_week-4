@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from forms import RegistrationForm, LoginForm, SearchForm, HotelForm
 from flask_behind_proxy import FlaskBehindProxy
 from flask_sqlalchemy import SQLAlchemy
@@ -79,8 +79,8 @@ def display_rates():
     if form.validate_on_submit():
         check_in_date = form.check_in_date.data
         check_out_date = form.check_out_date.data
-        # rate = get_hotel_rate(hotel_id, check_in_date, check_out_date)
-        rate = get_hotel_rate(109745697, check_in_date, check_out_date)
+        # hotel_id = request.form.get('hotelId')
+        rate = get_hotel_rate('1050165', check_in_date, check_out_date)
         return render_template('display_rates.html', form=form, hotel_rate = rate)
 
     return render_template('display_rates.html', form=form)

@@ -35,10 +35,11 @@
                         {{ hotel['name'] }}
                     </td>
                     <td>
-                        {% set url = ['/display_rates?hotel_id=', hotel['hotelId']]|join() %}
+                        <!-- {% set url = ['/display_rates/', hotel['hotelId']]|join() %}
                         <a href= {{ url }}>
                         {{ hotel['hotelId'] }}
-                        </a>
+                        </a> -->
+                        <a href="{{ url_for('display_rates', hotelId=hotel['hotelId']) }}">{{ hotel['hotelId'] }}</a>
                     </td>
                 </tr>
             {% endfor %}
